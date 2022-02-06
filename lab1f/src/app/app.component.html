@@ -1,0 +1,11 @@
+<div class="toolbar" role="banner">
+  <img
+    width="40"
+    alt="Juice Logo"
+    src="assets/logo.svg"
+  />
+  <span>Juices</span>
+</div>
+<div class="container">
+  <app-card *ngFor="let juice of juicesList" [title]="juice.title" [descr]="juice.descr" [img]="juice.img"></app-card>
+</div>
