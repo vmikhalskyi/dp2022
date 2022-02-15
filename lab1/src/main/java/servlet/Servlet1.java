@@ -10,23 +10,50 @@ import juice.Juice;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import crud.Lab2CrudInterface;
+
 /**
  * Servlet implementation class Servlet1
  */
 @WebServlet("/Servlet1")
 public class Servlet1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	ServletConfigInterface servletConfig;
+	Lab2CrudInterface lab2Crud;
+	
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Servlet1() {
+		super();
+		this.servletConfig = new ServletConfig();
+		this.lab2Crud = servletConfig.getCrud();
+	}
+	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		
-		Juice juice = new Juice("Apple juice", "A type of fruit juice that is made from the pulp of apples processed for their juice. It is a very clear liquid from which the pulp has been removed. This juice is often used to flavor meats, or as an ingredient in dressings and sauces, adding a sweet apple flavor.", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Apple_juice_with_3apples.jpg/220px-Apple_juice_with_3apples.jpg");
-	
-		out.println("["+juice+"]");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+			
+		out.println("["+lab2Crud.readJuice()+"]");
 	}
+	
+	/**
+	 * @see HttpServlet#doPut(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String title = request.getParameter("title");
+		String descr = request.getParameter("descr");
+		String img = request.getParameter("img");
+		
+		lab2Crud.updateJuice(new Juice(title, descr, img));
+	}
+	
+	
 
 }

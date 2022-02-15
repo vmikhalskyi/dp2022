@@ -14,4 +14,10 @@ export class JuiceService {
   getJuices():Observable<Juice[]> {
     return this.http.get<Juice[]>(this.url);
   }
+
+  setJuice(params: any) {
+    //TODO: put here params
+    // this.http.put(this.url, {}, { params: {}});
+    console.log('params', params);
+  }
 }

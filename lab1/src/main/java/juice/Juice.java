@@ -1,6 +1,13 @@
 package juice;
 
-public class Juice {
+import java.io.Serializable;
+
+public class Juice implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String title;
 	private String descr;
 	private String img;

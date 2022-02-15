@@ -19,4 +19,6 @@
 .container {
   margin: 100px auto;
   padding: 0 50px;
+  display: flex;
+  justify-content: space-evenly;
 }

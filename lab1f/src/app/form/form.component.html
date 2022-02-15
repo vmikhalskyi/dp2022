@@ -1,0 +1,16 @@
+<h3 class="form-title">Form for changing juice information</h3>
+<form [formGroup]="juiceForm" (ngSubmit)="onSubmit()" class="form">
+
+    <label for="title" class="form-label">Title: </label>
+    <input id="title" type="text" formControlName="title" required class="form-input">
+
+    <label for="descr" class="form-label">Description: </label>
+    <input id="descr" type="text" formControlName="descr" required class="form-input">
+
+    <label for="img" class="form-label">URL for image: </label>
+    <input id="img" type="text" formControlName="img" class="form-input">
+
+    <p class="form-message">Complete the form to enable button.</p>
+    <button type="submit" [disabled]="!juiceForm.valid" class="form-button">Submit</button>
+
+</form>
