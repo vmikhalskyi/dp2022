@@ -20,4 +20,8 @@ export class AppComponent {
       }
     )
   }
+
+  setJuicesList = (list: Juice[]): void => {
+    this.juicesList = list;
+  }
 }

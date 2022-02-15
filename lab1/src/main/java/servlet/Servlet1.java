@@ -52,6 +52,11 @@ public class Servlet1 extends HttpServlet {
 		String img = request.getParameter("img");
 		
 		lab2Crud.updateJuice(new Juice(title, descr, img));
+		
+		PrintWriter out = response.getWriter();
+		response.addHeader("Access-Control-Allow-Origin", "*");
+
+		out.println("["+lab2Crud.readJuice()+"]");
 	}
 	
 	
