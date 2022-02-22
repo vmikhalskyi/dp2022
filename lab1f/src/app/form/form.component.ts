@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Juice } from '../interfaces/juice';
+import { IJuice } from '../interfaces/juice';
 import { JuiceService } from '../juice.service';
 
 @Component({
@@ -10,11 +10,13 @@ import { JuiceService } from '../juice.service';
 })
 export class FormComponent implements OnInit {
   juiceForm = new FormGroup({
+    id: new FormControl(-1),
     title: new FormControl(''),
     descr: new FormControl(''),
     img: new FormControl(''),
   });
-  @Input() setJuicesList!: (args: Juice[]) => void;
+  @Input() setJuicesList!: (args: IJuice[]) => void;
+  @Output() addJuice = new EventEmitter();
 
   constructor(private service: JuiceService) { }
 
@@ -22,9 +24,8 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.setJuice(this.juiceForm.value).subscribe((juices) => {
-      this.setJuicesList(juices as Juice[]);
-    });
+    this.addJuice.emit(this.juiceForm.value);
+    this.juiceForm.setValue({ id: -1, title: '', descr: '', img: '' });
   }
 
 }

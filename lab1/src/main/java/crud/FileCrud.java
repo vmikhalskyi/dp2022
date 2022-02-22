@@ -1,5 +1,7 @@
 package crud;
 
+import java.util.List;
+
 import fileIO.FileIO;
 import fileIO.FileIOInterface;
 import juice.Juice;
@@ -13,12 +15,12 @@ public class FileCrud implements Lab2CrudInterface {
 	}
 
 	@Override
-	public Juice readJuice() {
-		return (Juice) fio.loadFromFile();
+	public List<Juice> readJuice() {
+		return (List<Juice>) fio.loadFromFile();
 	}
 
 	@Override
-	public void updateJuice(Juice juice) {
+	public void updateJuice(List<Juice> juice) {
 		fio.saveToFile(juice);
 	}
 

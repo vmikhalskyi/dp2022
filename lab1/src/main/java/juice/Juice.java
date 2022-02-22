@@ -7,16 +7,30 @@ public class Juice implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	int id;
+	String title;
+	String descr;
+	String img;
+	
+	public Juice() {
+		
+	}
 
-	private String title;
-	private String descr;
-	private String img;
-
-	public Juice(String title, String descr, String img) {
+	public Juice(int id, String title, String descr, String img) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.descr = descr;
 		this.img = img;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -45,6 +59,6 @@ public class Juice implements Serializable {
 
 	@Override
 	public String toString() {
-		return "{\"title\": \""+title+"\", \"descr\": \""+descr+"\", \"img\": \""+img+"\"}";
+		return "{\"id\": "+id+", \"title\": \""+title+"\", \"descr\": \""+descr+"\", \"img\": \""+img+"\"}";
 	}
 }

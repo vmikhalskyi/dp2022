@@ -21,6 +21,7 @@
   padding: 0 50px;
   display: flex;
   justify-content: space-evenly;
+  flex-direction: column;
 }
 
 .diagram {
@@ -31,4 +32,16 @@
   img {
     height: 100%;
   }
+}
+
+.disable {
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 100px;
+  gap: 10px;
 }

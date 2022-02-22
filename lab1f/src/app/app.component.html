@@ -1,4 +1,4 @@
-<div class="toolbar" role="banner">
+<div [ngClass]="{'toolbar': true, 'disable': isUpdateFormOpened}" role="banner">
   <img
     width="40"
     alt="Juice Logo"
@@ -6,8 +6,11 @@
   />
   <span>Juices</span>
 </div>
-<div class="container">
-  <app-card *ngFor="let juice of juicesList" [title]="juice.title" [descr]="juice.descr" [img]="juice.img"></app-card>
-  <app-form [setJuicesList]="setJuicesList"></app-form>
+<div [ngClass]="{'container': true, 'disable': isUpdateFormOpened}">
+  <div class="wrapper">
+    <app-card *ngFor="let juice of juicesList" [id]="juice.id" [title]="juice.title" [descr]="juice.descr" [img]="juice.img" (chooseUpdatedJuice)="chooseUpdatedJuice($event)" (deleteJuice)="deleteJuice($event)"></app-card>
+  </div>
+  <app-form [setJuicesList]="setJuicesList" (addJuice)="addJuice($event)"></app-form>
 </div>
-<div class="diagram"><img src="assets/diagram.png"></div>
+<div [ngClass]="{'diagram': true, 'disable': isUpdateFormOpened}"><img src="assets/diagram.png"></div>
+<app-update *ngIf="isUpdateFormOpened" [juice]="updatedJuice" (closePopup)="closePopup()" (updated)="updateJuices()"></app-update>
