@@ -1,18 +1,22 @@
 package servlet;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jdbc.Connect;
+import jdbc.SqlCRUD;
 import juice.Juice;
 import juice.Mock;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
-import crud.Lab2CrudInterface;
 
 /**
  * Servlet implementation class Servlet1
@@ -20,20 +24,24 @@ import crud.Lab2CrudInterface;
 @WebServlet("/Servlet1/*")
 public class Servlet1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private List<Juice> lj = new Mock().getJuiceList();
+
+	LabCRUDInterface<Juice> crud = new SqlCRUD();
 	
-	ServletConfigInterface servletConfig;
-	Lab2CrudInterface lab2Crud;
+	public void init(ServletConfig config) throws ServletException {
+		crud = new SqlCRUD();
+	}
+	
+	public void destroy() {
+		try {
+			((SqlCRUD) crud).getConnection().close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
-	 */
-	public Servlet1() {
-		super();
-		this.servletConfig = new ServletConfig();
-		this.lab2Crud = servletConfig.getCrud();
-	}
-	
+	 */	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,10 +49,7 @@ public class Servlet1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
 		response.setContentType("application/json");
-		lab2Crud.updateJuice(lj);
-		lj = lab2Crud.readJuice();
-		PrintWriter out = response.getWriter();
-		out.println(lj);
+		response.getWriter().println(crud.read());
 	}
 	
 	/**
@@ -53,8 +58,7 @@ public class Servlet1 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setAccessControlHeaders(response);
 		Juice juice = Helpers.juiceParse(request);
-		juice.setId(Helpers.getNextId(lj));
-		lj.add(juice);
+		crud.create(juice);
 		doGet(request, response);
 	}
 	
@@ -66,8 +70,7 @@ public class Servlet1 extends HttpServlet {
 		Juice juice = Helpers.juiceParse(request);
 		int id = Integer.parseInt(request.getPathInfo().substring(1));
 		response.setContentType("application/json");
-		int index = Helpers.getIndexByJuiceId(id, lj);
-		lj.set(index, juice);
+		crud.update(id, juice);
 		doGet(request, response);
 	}
 	
@@ -78,8 +81,7 @@ public class Servlet1 extends HttpServlet {
 		setAccessControlHeaders(response);
 		int id = Integer.parseInt(request.getPathInfo().substring(1));
 		response.setContentType("application/json");
-		int index = Helpers.getIndexByJuiceId(id, lj);
-		lj.remove(index);
+		crud.delete(id);
 		doGet(request, response);
 	}
 	
